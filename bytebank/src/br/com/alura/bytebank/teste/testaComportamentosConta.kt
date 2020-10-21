@@ -1,12 +1,16 @@
 package br.com.alura.bytebank.teste
 
+import br.com.alura.bytebank.exception.FalhaAutenticacaoException
+import br.com.alura.bytebank.exception.SaldoInsuficienteException
 import br.com.alura.bytebank.modelo.Cliente
 import br.com.alura.bytebank.modelo.ContaCorrente
 import br.com.alura.bytebank.modelo.ContaPoupanca
+import java.lang.Exception
 
 fun testaComportamentosConta() {
-//    var contaBreno = ContaPoupanca(numero = 999, titular = "Breno");
-//    contaBreno.deposita(300.0)
+    var clienteBreno =  Cliente(nome = "Breno",cpf = "1111",senha = 123);
+    var contaBreno = ContaPoupanca(numero = 999, titular = clienteBreno);
+    contaBreno.deposita(300.0)
 
     var clienteBryan = Cliente(nome = "Bryan",cpf = "1111",senha = 123);
     var contaBryan = ContaCorrente(titular = clienteBryan, numero = 1000);
@@ -28,7 +32,20 @@ fun testaComportamentosConta() {
     println(contaBryan.saldo);
 
     println("transferencia");
-//    contaBreno.transfere(50.0, contaBryan);
+
+
+    try {
+        contaBreno.transfere(60.0, contaBryan,123);
+    }catch (e:SaldoInsuficienteException){
+
+       e.printStackTrace()
+    }catch (e:FalhaAutenticacaoException){
+        println (e.message)
+    }catch (e:Exception){
+        println("Erro desconhecido");
+        e.printStackTrace();
+    }
+
     println(contaBryan.saldo);
 //    println(contaBreno.saldo);
 }

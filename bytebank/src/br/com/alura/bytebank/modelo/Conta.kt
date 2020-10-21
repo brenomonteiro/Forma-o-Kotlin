@@ -1,7 +1,7 @@
 package br.com.alura.bytebank.modelo
 
 abstract class Conta(var titular: Cliente,
-                     val numero: Int) {
+                     val numero: Int) : Autenticavel{
 
     var saldo = 0.0
         protected set;
@@ -22,7 +22,9 @@ abstract class Conta(var titular: Cliente,
 
     abstract fun saca(valor: Double)
 
-
+    override fun autentica(senha: Int): Boolean {
+        return titular.autentica(senha)
+    }
 
 //    fun getSaldo():Double{
 //        return this.saldo;
