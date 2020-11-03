@@ -1,74 +1,53 @@
 import br.com.alura.algoritimos.teste.buscaCarroMaisBarato
 import br.com.alura.bytebank.collections.testeCollection
 import br.com.alura.bytebank.exception.SaldoInsuficienteException
+import br.com.alura.bytebank.modelo.Autenticavel
 import br.com.alura.bytebank.modelo.Endereco
 import br.com.alura.bytebank.modelo.Prateleira
+import br.com.alura.bytebank.modelo.SistemaInterno
 import br.com.alura.bytebank.teste.testaComportamentosConta
 import br.com.alura.bytebank.teste.testeLista
 import br.com.alura.bytebank.teste.testeRange
 import java.lang.Exception
 
 fun main() {
+//teste(1,{})
+//    val endereco = Endereco(logradouro = "rua vergueiro",numero = 3287)
+//    val enderecoMaiusculo = "${endereco.logradouro},${endereco.numero}".toUpperCase()
+//    println(enderecoMaiusculo)
 
-//    testaTipoFuncaoReferencia()
-//    testaTipoFuncaoClasse()
-//    testaTipoFuncaoLambda()
-//    testaTipoFuncaoAnonima()
+    Endereco(logradouro = "rua vergueiro", numero = 3287).let { endereco -> "${endereco.logradouro},${endereco.numero}".toUpperCase() }.let(::println)
 
-    val calculaBonificacao:(salario:Double)->Double=lambda@{salario ->
-        if(salario>1000){
-            return@lambda salario+50
-        }
-        salario+100
+    listOf(Endereco(
+            logradouro = "rua vergueiro", numero = 3287, complemento = "casa"),
+            Endereco(logradouro = "rua vergueiro", numero = 3287, complemento = "ap"),
+            Endereco()).filter { endereco -> endereco.complemento.isNotEmpty() }.let(::println)
+
+
+    soma(1, 6) {
+        println(it)
     }
 
-    val calculaBonificacaoAnonima:(salario:Double) ->Double = fun(salario):Double{
-        if(salario>1000){
-            return salario+50
-        }
-        return salario+100
+    val autenticavel = object : Autenticavel {
+        val senha = 1234
+        override fun autentica(senha: Int) = this.senha == senha
+
+
     }
 
-println(calculaBonificacao(1100.0))
+    SistemaInterno().entra(autenticavel,1234, autenticado = {println("realizar pagamento")})
+
 }
 
-fun testaTipoFuncaoAnonima() {
-    val minhaFuncaoAnonima: (Int,Int) -> Int = fun(a:Int,b:Int):Int {
-        return a+b
-    }
-    println(minhaFuncaoAnonima)
-    println(minhaFuncaoAnonima(10,10))
+
+fun soma(a: Int, b: Int, resultado: (Int) -> Unit) {
+    println("antes da soma")
+    resultado(a + b)
+    println("depois da soma")
 }
 
-fun testaTipoFuncaoLambda() {
-    val minhaFuncaoLambda: (Int,Int) -> Int = {
-        a,b -> a+b
-    }
-    println(minhaFuncaoLambda)
-    println(minhaFuncaoLambda(5,5))
-}
-
-fun testaTipoFuncaoClasse() {
-    var minhaFuncaoClasse: (Int,Int) -> Int = Soma();
-    println(minhaFuncaoClasse)
-    println(minhaFuncaoClasse(3,9))
-}
-
-fun testaTipoFuncaoReferencia() {
-    var minhaFuncao: (Int,Int) -> Int = ::soma;
-    println(minhaFuncao)
-    println(minhaFuncao(4,2))
-}
-
-fun teste() {
-    println("ola")
-}
-
-fun soma(a:Int,b:Int):Int{
-    return a+b;
-}
-class Soma : (Int,Int) -> Int {
-    override fun invoke(a: Int, b: Int): Int = a+b;
+//higher order function
+fun teste(teste: Int, bloco: () -> Unit) {
 
 }
 
