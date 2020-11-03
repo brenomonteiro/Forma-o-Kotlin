@@ -54,3 +54,71 @@ fun List<Livro?>.imprimeComMarcadores() {
             }
     println(" #### Lista de Livros #### \n$textoFormatado")
 }
+
+fun salariosComAumento() {
+    val salarios: DoubleArray = doubleArrayOf(1000.0, 2000.0, 3000.0);
+    val aumento = 1.1;
+    for (indice in salarios.indices) {
+        salarios[indice] *=  aumento;
+
+    }
+
+    //com foreach
+
+    salarios.forEachIndexed{i,salario -> salarios[i] *= aumento}
+
+    println("salários com aumento ${salarios.contentToString()}")
+}
+
+fun comparacaoIdadesArraySimples() {
+    val idades = IntArray(3);
+    //forma mais enxuta
+    //val idades: IntArray = intArrayOf(4,6,2)
+    idades[0] = 4;
+    idades[1] = 6;
+    idades[2] = 2;
+
+    //com if
+//    val maiorIdade = if (idades[0] > idades[1] && idades[0] > idades[2]) {
+//        idades[0]
+//    } else if (idades[1] > idades[0] && idades[1] > idades[2]) {
+//        idades[1]
+//    } else {
+//        idades[2]
+//    }
+
+    //com for
+    var maiorIdade = Int.MIN_VALUE;
+    for(idade in idades){
+        if (maiorIdade<idade){
+            maiorIdade = idade
+        }
+    }
+
+    var menorIdade = Int.MAX_VALUE;
+    for(idade in idades){
+        if (menorIdade>idade){
+            menorIdade = idade
+        }
+    }
+
+
+    println("maior idade é $maiorIdade")
+    println("menor idade é $menorIdade")
+}
+
+fun comparacaoIdadesSemArray() {
+    val idades = 25;
+    val idades2 = 24;
+    val idades3 = 67;
+
+    val maiorIdade = if (idades > idades2 && idades > idades3) {
+        idades
+    } else if (idades2 > idades && idades2 > idades3) {
+        idades2
+    } else {
+        idades3
+    }
+
+    println("maior idade é $maiorIdade")
+}
