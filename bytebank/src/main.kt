@@ -1,83 +1,60 @@
 import br.com.alura.algoritimos.teste.buscaCarroMaisBarato
 import br.com.alura.bytebank.collections.testeCollection
 import br.com.alura.bytebank.exception.SaldoInsuficienteException
-import br.com.alura.bytebank.modelo.Autenticavel
-import br.com.alura.bytebank.modelo.Endereco
-import br.com.alura.bytebank.modelo.Prateleira
-import br.com.alura.bytebank.modelo.SistemaInterno
+import br.com.alura.bytebank.modelo.*
 import br.com.alura.bytebank.teste.testaComportamentosConta
+import br.com.alura.bytebank.teste.testaFuncoesEscopo
 import br.com.alura.bytebank.teste.testeLista
 import br.com.alura.bytebank.teste.testeRange
 import java.lang.Exception
 
 fun main() {
-//teste(1,{})
-//    val endereco = Endereco(logradouro = "rua vergueiro",numero = 3287)
-//    val enderecoMaiusculo = "${endereco.logradouro},${endereco.numero}".toUpperCase()
-//    println(enderecoMaiusculo)
+    testaRun()
+    testaFuncoesEscopo()
+
+}
 
 
-    run{
-        println("Olá teste run sem extensão");
+fun testaRun() {
+    val taxaAnual = 0.05;
+    val taxaMensal = taxaAnual / 12
+    val contaPoupanca = ContaPoupanca(Cliente(nome = "breno", cpf = "123", senha = 1234), 1000)
+
+    contaPoupanca.run {
+        deposita(1000.0)
+        saldo * taxaMensal
+
+    }.let { rendimentoMensal ->
+        println("Rendimento mensal $rendimentoMensal")
     }
 
-
-
-    Endereco(logradouro = "rua vergueiro", numero = 3287)
-            .also{ println("Testando o also antes de rodar o RUN")}
-            .run{
-                "$logradouro,$numero".toUpperCase()
-            }.let{
-                enderecoMaiusculo: String -> println(enderecoMaiusculo)
-            }
-
-    Endereco()
-            .apply {
-                logradouro = "casa"
-                numero = 234
-
-            }.let(::println)
-
-    with(Endereco(logradouro = "rua vergueiro", numero = 3287)){
-        val log = logradouro.toUpperCase()
-        println(log)
+    val rendimentoAnual: Double = run {
+        var saldo = contaPoupanca.saldo
+        repeat(12) {
+            saldo += saldo * taxaMensal
+        }
+        saldo
     }
+    println("rendimento anual $rendimentoAnual")
+}
 
+fun testaWith() {
+    val enderecoCompleto = with(Endereco()) {
+        logradouro = "rua ceará"
+        numero = 3587
+        bairro = "Custódio Pereira"
+        cidade = "São Paulo"
+        estado = "SP"
+        cep = "38405240"
+        complemento = "casa"
 
-
-
-//    listOf(Endereco(
-//            logradouro = "rua vergueiro", numero = 3287, complemento = "casa"),
-//            Endereco(logradouro = "rua vergueiro", numero = 3287, complemento = "ap"),
-//            Endereco()).filter { endereco -> endereco.complemento.isNotEmpty() }.let(::println)
-//
-//
-//    soma(1, 6) {
-//        println(it)
-//    }
-//
-//    val autenticavel = object : Autenticavel {
-//        val senha = 1234
-//        override fun autentica(senha: Int) = this.senha == senha
-//
-//
-//    }
-//
-//    SistemaInterno().entra(autenticavel,1234, autenticado = {println("realizar pagamento")})
-
+        completo()
+    }.let(::println)
 }
 
 
-fun soma(a: Int, b: Int, resultado: (Int) -> Unit) {
-    println("antes da soma")
-    resultado(a + b)
-    println("depois da soma")
-}
 
-//higher order function
-fun teste(teste: Int, bloco: () -> Unit) {
 
-}
 
 
 

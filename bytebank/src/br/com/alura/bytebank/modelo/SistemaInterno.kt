@@ -10,4 +10,18 @@ class SistemaInterno {
             println("Falha ao logar");
         }
     }
+
+    fun entraReciever(admin: Autenticavel, senha: Int, autenticado:SistemaInterno.() -> Unit={}){
+        if(admin.autentica(senha)){
+            println("Bem vindo ao Sistema");
+            autenticado(this)
+        }else {
+            println("Falha ao logar");
+        }
+    }
+
+    fun pagamento() {
+        TODO("Not yet implemented")
+        println("pagamento")
+    }
 }
