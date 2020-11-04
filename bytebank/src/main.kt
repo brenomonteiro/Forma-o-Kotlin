@@ -16,26 +16,54 @@ fun main() {
 //    val enderecoMaiusculo = "${endereco.logradouro},${endereco.numero}".toUpperCase()
 //    println(enderecoMaiusculo)
 
-    Endereco(logradouro = "rua vergueiro", numero = 3287).let { endereco -> "${endereco.logradouro},${endereco.numero}".toUpperCase() }.let(::println)
 
-    listOf(Endereco(
-            logradouro = "rua vergueiro", numero = 3287, complemento = "casa"),
-            Endereco(logradouro = "rua vergueiro", numero = 3287, complemento = "ap"),
-            Endereco()).filter { endereco -> endereco.complemento.isNotEmpty() }.let(::println)
-
-
-    soma(1, 6) {
-        println(it)
+    run{
+        println("Olá teste run sem extensão");
     }
 
-    val autenticavel = object : Autenticavel {
-        val senha = 1234
-        override fun autentica(senha: Int) = this.senha == senha
 
 
+    Endereco(logradouro = "rua vergueiro", numero = 3287)
+            .also{ println("Testando o also antes de rodar o RUN")}
+            .run{
+                "$logradouro,$numero".toUpperCase()
+            }.let{
+                enderecoMaiusculo: String -> println(enderecoMaiusculo)
+            }
+
+    Endereco()
+            .apply {
+                logradouro = "casa"
+                numero = 234
+
+            }.let(::println)
+
+    with(Endereco(logradouro = "rua vergueiro", numero = 3287)){
+        val log = logradouro.toUpperCase()
+        println(log)
     }
 
-    SistemaInterno().entra(autenticavel,1234, autenticado = {println("realizar pagamento")})
+
+
+
+//    listOf(Endereco(
+//            logradouro = "rua vergueiro", numero = 3287, complemento = "casa"),
+//            Endereco(logradouro = "rua vergueiro", numero = 3287, complemento = "ap"),
+//            Endereco()).filter { endereco -> endereco.complemento.isNotEmpty() }.let(::println)
+//
+//
+//    soma(1, 6) {
+//        println(it)
+//    }
+//
+//    val autenticavel = object : Autenticavel {
+//        val senha = 1234
+//        override fun autentica(senha: Int) = this.senha == senha
+//
+//
+//    }
+//
+//    SistemaInterno().entra(autenticavel,1234, autenticado = {println("realizar pagamento")})
 
 }
 
